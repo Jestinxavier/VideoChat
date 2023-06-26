@@ -15,6 +15,8 @@ const newConnectionHandler = async(socket,io)=>{
             userId : userDetails.userId,
             
         }
+
+        
     )
 }
 
