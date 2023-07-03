@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const socketServer = require('./socketServer');
 const authRoutes = require('./routes/authRoutes');
+const friendinvitationRouteRoutes = require('./routes/friendinvitationRoutes')
 const PORT = 5000;
 
 const app = express();
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 
 // Register the route
 app.use("/api/auth", authRoutes);
+app.use('/api/friend-invitation',friendinvitationRouteRoutes)
 
 console.log("Starting our server");
 const server = http.createServer(app);

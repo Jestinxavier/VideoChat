@@ -1,5 +1,7 @@
 const authSocket = require('./middleware/authSocket');
 const newConnectionHandler =  require('./socketHandlers/newConnectionHandler');
+const disconnectHandler = require('./socketHandlers/disconnectHandler');
+const serverStore = require('./serverStore')
 const registSockServer = (sever)=>{
     const io = require('socket.io')(sever,{
         cors:{
@@ -7,6 +9,9 @@ const registSockServer = (sever)=>{
             methods:['GET']
         }
     })
+
+     serverStore.setSocketServerInstance(io);
+    
     io.use((socket,next)=>{
         // validation wheather the email is already exist.
         authSocket(socket,next)
@@ -19,10 +24,11 @@ const registSockServer = (sever)=>{
         newConnectionHandler(socket,io);
     })
 
-    io.on('disconnect',(socket)=>{
+    io.on('disconnect',()=>{
         console.log('disconnect Socket server');
-        disconnectHandler()
+        disconnectHandler(socket)
     })
+
 
 
 }

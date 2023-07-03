@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import { validateMail } from "../../utils/Validator";
 import InputWithLabel from "../../shared/component/InputWithLabel";
 import CustomPrimaryButton from "../../shared/component/CustomPrimaryButton";
+import {connect } from 'react-redux'
+import { getActions } from "../../app/actions/friendsAction";
 const AddFriendDialog = ({
   isDialogOpen,
   closeDialogHandler,
@@ -18,6 +20,10 @@ const AddFriendDialog = ({
 
   const handleSendInvitation = () => {
     // send friend request to server
+    sendFriendInvitation({
+      targetMailAddress:mail,
+
+    }, handleCloseDialog)
   };
 
   const handleCloseDialog = () => {
@@ -66,4 +72,10 @@ const AddFriendDialog = ({
   );
 };
 
-export default AddFriendDialog;
+const mapActionToProps = (dispatch)=>{
+  return {
+    ...getActions(dispatch),
+  }
+}
+
+export default connect(null,mapActionToProps)(AddFriendDialog);

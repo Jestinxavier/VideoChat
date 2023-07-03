@@ -1,13 +1,53 @@
 const connectedUser = new Map();
 
-/**
- * 
- * @param {socketId, userId} 
- * 
- */
-const addNewConnectedUser = ({socketId, userId})=>{
-    connectedUser.set(socketId,{userId});
 
-   console.log('The new connected user,:😎',connectedUser);
+let io = null ;
+const setSocketServerInstance = (ioInstatnce)=>{
+    io = ioInstatnce;
 }
-module.exports ={addNewConnectedUser}
+
+const getSocketServerInstance = ()=>{
+    return io;
+}
+
+/**
+ *
+ * @param {socketId, userId}
+ *
+ */
+
+
+const addNewConnectedUser = ({ socketId, userId }) => {
+  connectedUser.set(socketId, { userId });
+
+  console.log("The new connected user,:😎", connectedUser);
+};
+
+const removeConnectedUser = (socketId) => {
+  if (connectedUser.has(socketId)) {
+    connectedUser.delete(socketId);
+    console.log("new Connected user");
+    console.log(connectedUser);
+  }
+};
+
+const getActiveConnection = (userId) => {
+  const activeConnection = [];
+
+  connectedUser.forEach(function (value, key) {
+
+    if (value.userId === userId) {
+      activeConnection.push(key);
+    }
+
+  });
+
+  return activeConnection;
+};
+module.exports = {
+  addNewConnectedUser,
+  removeConnectedUser,
+  getActiveConnection,
+  getSocketServerInstance,
+  setSocketServerInstance
+};

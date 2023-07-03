@@ -7,7 +7,7 @@ const postLogin = async (req, res) => {
     try {
     const {mail,password} = req.body;
     const user = await User.findOne({mail:mail.toLowerCase()})
-  if(user && (await bcrypt.compare(password,user.password))){
+  if(user && bcrypt.compare(password, user.password)){
    
 
      // creating JWT token
@@ -18,6 +18,7 @@ const postLogin = async (req, res) => {
         expiresIn:'24h'
     }
     ) 
+
 
     return res.status(200).json({
         userDetails:{

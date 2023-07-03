@@ -3,8 +3,8 @@ const router = express.Router();
 const authController = require('../controllers/auth/authcontroller')
 const Joi = require('joi');
 const validater = require('express-joi-validation').createValidator({});
-
 const auth = require('../middleware/auth')
+
 const registerSchema = Joi.object({
     username :Joi.string().min(3).max(30).required(),
     password:Joi.string().min(2).max(12).required(),

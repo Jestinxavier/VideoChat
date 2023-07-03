@@ -3,7 +3,7 @@ import { logout } from "./utils/auth";
 
 const apiClient = axios.create({
   baseURL: "http://localhost:5000/api",
-  timeout: 1000,
+  timeout: 5000,
 });
 
 apiClient.interceptors.request.use(
@@ -48,10 +48,50 @@ export const register = async (data) => {
 
 // secure routes
 
-const checkResponseCode = (exception) => {
+export const sendFriendInvitation = async (data)=>{
+  try {
+    return await apiClient.post('/friend-invitation/invite',data)
+  } catch (exception) {
+    checkResponseCode(exception)
+    return {
+      error:true,
+      exception,
+    }
+  }
+}
+
+export const checkResponseCode = (exception) => {
   const responseCode = exception?.response?.status;
 
   if (responseCode) {
     (responseCode === 401 || responseCode === 403) && logout();
   }
 };
+
+export const rejuctFriendInvitation = async (data)=>{
+  try {
+    await apiClient.post('friend-invitation/rejuct',data)
+  } catch (exception) {
+    checkResponseCode(exception)
+    return{
+      error:{
+        error:true,
+        exception
+      }
+    }
+  }
+}
+export const acceptFriendInvitation = async (data)=>{
+try {
+  await apiClient.post('friend-invitation/accept',data)
+} catch (exception) {
+  checkResponseCode(exception)
+  return{
+    error:{
+      error:true,
+      exception
+    }
+  }
+}
+}
+
