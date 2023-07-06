@@ -12,7 +12,7 @@ export const getActions = (dispatch) => {
     sendFriendInvitation: (data, closeDialogHandler) => 
       dispatch(sendFriendInvitation(data, closeDialogHandler)),
       acceptFriendInvitation: (data)=>dispatch(acceptFriendInvitation(data)),
-      rejuctFriendInvitation: (data)=>dispatch(rejuctFriendInvitation(data))
+      rejectFriendInvitation: (data)=>dispatch(rejectFriendInvitation(data))
     ,
   };
 };
@@ -24,6 +24,13 @@ export const setPendingFriendsInvitations = (pendingFriendsInvitaions)=>{
     
   }
 }
+export const setFriends = (friends)=>{
+  return {
+    type: friends.SET_FRIENDS,
+    friends,
+  }
+}
+
 
 const sendFriendInvitation = (data, closeDialogHandler) => {
   return async (dispatch) => {
@@ -48,15 +55,17 @@ return async (dispatch)=>{
 }
 }
 
- const rejuctFriendInvitation = (data)=>{
+ const rejectFriendInvitation = (data)=>{
   return async (dispatch)=>{
-    const responce = await api.rejuctFriendInvitation(data)
+    const responce = await api.rejectFriendInvitation(data)
     if (responce.error) {
       dispatch(openAlertMessage(responce?.exception?.responce?.data));
     } else {
-      dispatch(openAlertMessage("Invitation rejucted!"));
+      dispatch(openAlertMessage("Invitation rejected!"));
     }
   }
 }
+
+
 
 

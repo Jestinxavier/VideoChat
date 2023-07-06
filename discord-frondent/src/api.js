@@ -68,9 +68,9 @@ export const checkResponseCode = (exception) => {
   }
 };
 
-export const rejuctFriendInvitation = async (data)=>{
+export const rejectFriendInvitation = async (data)=>{
   try {
-    await apiClient.post('friend-invitation/rejuct',data)
+  return  await apiClient.post('friend-invitation/reject',data)
   } catch (exception) {
     checkResponseCode(exception)
     return{
@@ -83,7 +83,7 @@ export const rejuctFriendInvitation = async (data)=>{
 }
 export const acceptFriendInvitation = async (data)=>{
 try {
-  await apiClient.post('friend-invitation/accept',data)
+ return await apiClient.post('friend-invitation/accept',data)
 } catch (exception) {
   checkResponseCode(exception)
   return{
