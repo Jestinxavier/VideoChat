@@ -15,10 +15,18 @@ const postInvite = async (req, res) => {
       .status(409)
       .send("Sorry. You cannot become friend with yourself");
   }
+  console.log(targetMailAddress,"targetMailAddress🤔");
+  let targetUser=""
+try {
+   targetUser = await User.findOne({ mail: targetMailAddress.toLowerCase() });
+  
+} catch (error) {
+  console.log('databaseerror',error.message);
+  
+}
 
-  const targetUser = await User.findOne({
-    mail: targetMailAddress.toLowerCase(),
-  });
+  
+  
 
   console.log(targetUser,"target urs🤔");
   if (!targetUser) {

@@ -26,7 +26,7 @@ export const setPendingFriendsInvitations = (pendingFriendsInvitaions)=>{
 }
 export const setFriends = (friends)=>{
   return {
-    type: friends.SET_FRIENDS,
+    type: friendsActions.SET_FRIENDS,
     friends,
   }
 }
@@ -71,6 +71,7 @@ return async (dispatch)=>{
     }
   }
 }
+
 
 
 

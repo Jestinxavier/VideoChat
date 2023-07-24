@@ -7,6 +7,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+  console.log(action,"action*****");
   switch (action.type) {
     case friendsActions.SET_PENING_FRIENDS_INVITATIONS:
       return {
@@ -17,15 +18,23 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         friends: action.friends,
+
       };
     case friendsActions.SET_ONLOINE_USERS:
       return {
+
         ...state,
+
         onlineUsers: action.onlineUsers,
+
       };
+
       default:
+
         return state;
+
   }
+
 };
 
 export default reducer;

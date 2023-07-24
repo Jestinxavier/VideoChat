@@ -32,4 +32,13 @@ export const connectionWithSocketServer = (userDetails) => {
   socket.on("online-users", ({ onlineUsers }) => {
     store.dispatch(setOnlineUsers(onlineUsers));
   });
+
+  socket.on("online-user",(data)=>{
+  
+  const {onlineUsers}  = data;
+  store.dispatch(setOnlineUsers(onlineUsers))
+    console.log('online user update came');
+  })
 };
+
+
