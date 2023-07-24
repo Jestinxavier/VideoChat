@@ -47,7 +47,7 @@ const updateFriends = async (userId) => {
         // get the io server  instance
 
         const io = serverStore.getSocketServerInstance();
-        reciverList.forEach((reciverId) => {
+        reciverList.forEach((receiverSocketId) => {
           io.to(receiverSocketId).emit("friends-list", {
             friends: friendsList ? friendsList : [],
           });

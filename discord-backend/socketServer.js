@@ -6,7 +6,7 @@ const registSockServer = (sever)=>{
     const io = require('socket.io')(sever,{
         cors:{
             origin:'*',
-            methods:['GET']
+            methods:['GET','POST']
         }
     })
 
@@ -16,12 +16,19 @@ const registSockServer = (sever)=>{
         // validation wheather the email is already exist.
         authSocket(socket,next)
     })
+    const emitOnlineUser = ()=>{
+        const onlineUsers = serverStore.getOnlineUsers();
+        io.emit('online-user',{onlineUsers})
+    }
+
+ 
     // when it is successfull we can connect the connectin 
     io.on('connection',(socket)=>{
         console.log("user connected");
         console.log(socket.id);
         // new connection handler
         newConnectionHandler(socket,io);
+        emitOnlineUser()
     })
 
     io.on('disconnect',()=>{
@@ -29,6 +36,11 @@ const registSockServer = (sever)=>{
         disconnectHandler(socket)
     })
 
+
+    setInterval(()=>{
+        emitOnlineUser();
+    },
+    [1000*8])
 
 
 }
