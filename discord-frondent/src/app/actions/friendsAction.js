@@ -31,6 +31,12 @@ export const setFriends = (friends)=>{
   }
 }
 
+export const setOnlineUsers = (onlineUsers)=>{
+  return {
+    type: friendsActions.SET_ONLOINE_USERS,
+    onlineUsers,
+  }
+}
 
 const sendFriendInvitation = (data, closeDialogHandler) => {
   return async (dispatch) => {

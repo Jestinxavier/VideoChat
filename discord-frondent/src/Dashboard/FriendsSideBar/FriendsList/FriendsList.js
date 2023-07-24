@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@mui/system";
 import FriendsListItem from "./FriendsListItem";
-import {connect } from 'react-redux';
+import { connect } from "react-redux";
 
 // const DUMMY_FRIENDS = [
 //   {
@@ -37,10 +37,18 @@ const MainContainer = styled("div")({
   width: "100%",
 });
 
-const FriendsList = ({friends}) => {
+const checkOnlineUsers = (friends = [], onlineUsers = []) => {
+  friends.forEach((f) => {
+    const isUserOnline = onlineUsers.find((u) => u.userId === f.id);
+    f.isOnline = isUserOnline ? true : false;
+  });
+  return friends;
+};
+
+const FriendsList = ({ friends, onlineUsers }) => {
   return (
     <MainContainer>
-      {friends.map((f) => (
+      {checkOnlineUsers(friends, onlineUsers).map((f) => (
         <FriendsListItem
           username={f.username}
           id={f.id}
@@ -52,10 +60,10 @@ const FriendsList = ({friends}) => {
   );
 };
 
-const mapStoreStateToProps = ({friends})=>{
-  return{
+const mapStoreStateToProps = ({ friends }) => {
+  return {
     ...friends,
-  }
-}
+  };
+};
 
 export default connect(mapStoreStateToProps)(FriendsList);
