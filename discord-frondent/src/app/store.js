@@ -3,6 +3,7 @@ import {combineReducers,legacy_createStore as createStore,applyMiddleware} from 
 import thunk from 'redux-thunk'
 import alertReducer from './reducers/alertReducer'
 import authReducer from './reducers/authReducer'
+import chatReducer from './reducers/chatReducers'
 
 import friendsReducer from './reducers/friendsReducer'
 
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
 auth:authReducer,
 alert:alertReducer,
 friends:friendsReducer,
+chat:chatReducer
 })
 
 
