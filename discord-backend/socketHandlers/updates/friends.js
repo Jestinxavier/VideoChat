@@ -8,7 +8,6 @@ const updateFriendsPendingInvitation = async (userId) => {
     const pendingInvitations = await FriendInvitation.find({
       receiverId: userId,
     }).populate("senderId", "_Id username mail");
-    console.log(pendingInvitations, "pendingInvitations🤔");
     // Find all active connections of specific user ID
 
     const reciverList = serverStore.getActiveConnection(userId);

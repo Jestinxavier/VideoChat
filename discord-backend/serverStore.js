@@ -1,4 +1,6 @@
+const { v4: uuidv4 } = require("uuid");
 const connectedUser = new Map();
+let activeRooms = [];
 
 let io = null;
 const setSocketServerInstance = (ioInstatnce) => {
@@ -24,8 +26,6 @@ const addNewConnectedUser = ({ socketId, userId }) => {
 const removeConnectedUser = (socketId) => {
   if (connectedUser.has(socketId)) {
     connectedUser.delete(socketId);
-    console.log("new Connected user");
-    console.log(connectedUser);
   }
 };
 
@@ -48,6 +48,57 @@ const getOnlineUsers = () => {
   return onlineUsers;
 };
 
+const addNewActiveRoom = (userId, socketId) => {
+  const newActiveRoom = {
+    roomCreator: {
+      userId,
+      socketId,
+    },
+    participants: [
+      {
+        userId,
+        socketId,
+      },
+    ],
+    roomId: uuidv4(),
+  };
+  activeRooms = [...activeRooms, newActiveRoom];
+  return newActiveRoom;
+};
+
+const getActiveRooms = () => {
+  return [...activeRooms];
+};
+
+const getActiveRoom = (roomId) => {
+  return activeRooms.find((room) => room.roomId === roomId);
+};
+
+const joinActiveRoom = (roomId, newParticipant) => {
+  const room = activeRooms.find((room) => room.roomId === roomId);
+  activeRooms = activeRooms.filter((room) => room.roomId !== roomId);
+  const updatedRoom = {
+    ...room,
+    participant: [...room.participants, newParticipant],
+  };
+  activeRooms.push(updatedRoom);
+};
+
+const leaveActiveRoom = (roomId, participantSocketId) => {
+  const activeRoom = activeRooms.find((room) => room.roomId === roomId);
+  if (activeRoom) {
+    const copyOfActiveRoom = { ...activeRoom };
+    copyOfActiveRoom.participants = copyOfActiveRoom.participants.filter(
+      (participant) => participant.socketId !== participantSocketId
+    );
+
+    activeRooms = activeRooms.filter((room) => room.roomId !== roomId);
+    if(activeRoom.participants.length>0){
+      activeRooms.push(copyOfActiveRoom);
+    }
+  }
+};
+
 module.exports = {
   addNewConnectedUser,
   removeConnectedUser,
@@ -55,4 +106,9 @@ module.exports = {
   getSocketServerInstance,
   setSocketServerInstance,
   getOnlineUsers,
+  addNewActiveRoom,
+  getActiveRooms,
+  getActiveRoom,
+  joinActiveRoom,
+  leaveActiveRoom,
 };

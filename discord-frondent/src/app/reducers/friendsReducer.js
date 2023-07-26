@@ -7,7 +7,6 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  console.log(action,"action*****");
   switch (action.type) {
     case friendsActions.SET_PENING_FRIENDS_INVITATIONS:
       return {
