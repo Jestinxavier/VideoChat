@@ -9,10 +9,16 @@ const MainContainer = styled("div")({
   display: "flex",
   flexWrap: "wrap",
 });
-function VideosContainer({ localStream }) {
+function VideosContainer({ localStream, remoteStreams, screenSharingStream }) {
   return (
     <MainContainer>
-      <Video stream={localStream} isLocalStream />
+      <Video
+        stream={screenSharingStream ? screenSharingStream : localStream}
+        isLocalStream
+      />
+      {remoteStreams.map((stream, i) => (
+        <Video stream={stream} key={i} />
+      ))}
     </MainContainer>
   );
 }

@@ -71,7 +71,7 @@ const getActiveRooms = () => {
 };
 
 const getActiveRoom = (roomId) => {
-  return activeRooms.find((room) => room.roomId === roomId);
+  return activeRooms.find((room) => room.roomId === roomId) || null;
 };
 
 const joinActiveRoom = (roomId, newParticipant) => {
@@ -93,7 +93,7 @@ const leaveActiveRoom = (roomId, participantSocketId) => {
     );
 
     activeRooms = activeRooms.filter((room) => room.roomId !== roomId);
-    if(activeRoom.participants.length>0){
+    if (activeRoom.participants.length > 0) {
       activeRooms.push(copyOfActiveRoom);
     }
   }

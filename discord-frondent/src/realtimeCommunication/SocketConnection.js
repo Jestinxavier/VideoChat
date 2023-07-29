@@ -6,8 +6,8 @@ import {
 } from "../app/actions/friendsAction";
 import store from "../app/store";
 import { updateDirectChatHistoryIfActive } from "../utils/chat";
-import {newRoomCreated, updateActiveRooms} from "./roomHandler"
-import * as webRtcHandler from "./webRtcHandler"
+import { newRoomCreated, updateActiveRooms } from "./roomHandler";
+import * as webRtcHandler from "./webRtcHandler";
 
 let socket = null;
 export const connectionWithSocketServer = (userDetails) => {
@@ -52,13 +52,27 @@ export const connectionWithSocketServer = (userDetails) => {
     newRoomCreated(data);
   });
 
-  socket.on("active-rooms",data => {
+  socket.on("active-rooms", (data) => {
     updateActiveRooms(data);
-  })
+  });
 
-  socket.on("conn-prepare",(data)=>{
-    const {connUserSocketId} = data;
-    webRtcHandler.prepareNewPeerConnection(data,false);
+  socket.on("conn-prepare", (data) => {
+    const { connUserSocketId } = data;
+    webRtcHandler.prepareNewPeerConnection(data, false);
+    socket.emit("conn-init", { connUserSocketId });
+  });
+
+  socket.on("conn-init", (data) => {
+    const { connUserSocketId } = data;
+    webRtcHandler.prepareNewPeerConnection(connUserSocketId, true);
+  });
+
+  socket.on("conn-signal", (data) => {
+    webRtcHandler.handleSignallingData(data);
+  });
+
+  socket.on("room-participant-left", (data)=>{
+    webRtcHandler.handleParticipantLeftRoom(data);
   })
 };
 
@@ -74,10 +88,14 @@ export const createNewRoom = () => {
   socket.emit("room-create");
 };
 
-export const joinRoom=(data) => {
-  socket.emit("room-join", data)
-}
+export const joinRoom = (data) => {
+  socket.emit("room-join", data);
+};
 
-export const leaveRoom=(data) => {
-  socket.emit("room-leave", data)
-}
+export const leaveRoom = (data) => {
+  socket.emit("room-leave", data);
+};
+
+export const signalPeerData = (data) => {
+  socket.emit("conn-signal", data);
+};

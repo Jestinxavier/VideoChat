@@ -8,6 +8,8 @@ const directMessageHandler = require("./socketHandlers/directMessageHandler");
 const roomCreatehandler = require("./socketHandlers/roomCreatehandler");
 const roomJoinhandler = require("./socketHandlers/roomJoinHandler");
 const roomLeaveHandler = require("./socketHandlers/roomLeaveHandler");
+const roomInitConnectHandler = require("./socketHandlers/roomInitConnectHandler");
+const roomSignallingDataHandler = require("./socketHandlers/roomSignallingDataHandler");
 const registSockServer = (sever) => {
   const io = require("socket.io")(sever, {
     cors: {
@@ -51,6 +53,14 @@ const registSockServer = (sever) => {
 
     socket.on("room-leave", (data) => {
       roomLeaveHandler(socket, data);
+    })
+
+    socket.on('conn-init', (data) => {
+      roomInitConnectHandler(socket, data);
+    })
+
+    socket.on("conn-signal",(data) => {
+      roomSignallingDataHandler(socket, data);
     })
 
     socket.on("disconnect", () => {

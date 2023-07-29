@@ -3,10 +3,11 @@ import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { createNewRoom } from "../../realtimeCommunication/roomHandler";
 
-function CreateRoomButton() {
+function CreateRoomButton({isUserInRoom}) {
   const handleCreateNewRoom = () => {createNewRoom()};
   return (
     <Button
+    disabled={isUserInRoom}
       onClick={handleCreateNewRoom}
       style={{
         width: "48px",
