@@ -7,11 +7,12 @@ import {
 import store from "../app/store";
 import { updateDirectChatHistoryIfActive } from "../utils/chat";
 import {newRoomCreated, updateActiveRooms} from "./roomHandler"
+import * as webRtcHandler from "./webRtcHandler"
 
 let socket = null;
 export const connectionWithSocketServer = (userDetails) => {
   const jwtToken = userDetails.token;
-  socket = io("http://localhost:5000", {
+  socket = io("http://144.217.91.122:5000", {
     auth: {
       tocken: jwtToken,
     },
@@ -53,6 +54,11 @@ export const connectionWithSocketServer = (userDetails) => {
 
   socket.on("active-rooms",data => {
     updateActiveRooms(data);
+  })
+
+  socket.on("conn-prepare",(data)=>{
+    const {connUserSocketId} = data;
+    webRtcHandler.prepareNewPeerConnection(data,false);
   })
 };
 
