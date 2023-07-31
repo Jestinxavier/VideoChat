@@ -32,6 +32,7 @@ export const getLocalStreamPreview = (onlyAudio = false, callback) => {
     ?.getUserMedia(constraints)
     .then((stream) => {
       store.dispatch(setLocalStream(stream));
+      callback()
     })
     .catch((err) => {
       console.log(err);

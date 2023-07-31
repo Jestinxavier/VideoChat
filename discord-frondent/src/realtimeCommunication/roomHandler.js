@@ -13,6 +13,7 @@ import * as webRtcHandler from "./webRtcHandler";
 
 export const createNewRoom = () => {
   const successCallback = () => {
+    console.log('succeess');
     store.dispatch(setOpenRoom(true, true));
 
     const audioOnly = store.getState().room.audioOnly;

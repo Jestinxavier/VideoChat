@@ -13,6 +13,7 @@ export const setOpenRoom = (
   isUserRoomcreator = false,
   isUserInRoom = false
 ) => {
+  console.log(isUserInRoom,'iiisisiis');
   return {
     type: roomActions.OPEN_ROOM,
     isUserRoomcreator,

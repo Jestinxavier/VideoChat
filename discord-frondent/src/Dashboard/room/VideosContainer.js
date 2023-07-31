@@ -10,6 +10,7 @@ const MainContainer = styled("div")({
   flexWrap: "wrap",
 });
 function VideosContainer({ localStream, remoteStreams, screenSharingStream }) {
+  console.log(localStream,'llll');
   return (
     <MainContainer>
       <Video

@@ -16,7 +16,7 @@ function ScreenShareButton({
   isScreenSharingActive,
 }) {
   const toggleScreenSharing = async () => {
-    if (isScreenSharingActive) {
+    if (!isScreenSharingActive) {
       let stream = null;
       try {
         stream = await navigator.mediaDevices.getDisplayMedia(constraints);
@@ -29,7 +29,7 @@ function ScreenShareButton({
       }
     } else {
       webRTCHandler.switchOutgoingTracks(localStream);
-      screenSharingStream.getTracks().forEach((track) => track.stop());
+      screenSharingStream?.getTracks().forEach((track) => track.stop());
       setScreenShareStream(null);
     }
   };
