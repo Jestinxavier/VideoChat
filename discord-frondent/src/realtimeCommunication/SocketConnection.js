@@ -12,7 +12,9 @@ import * as webRtcHandler from "./webRtcHandler";
 let socket = null;
 export const connectionWithSocketServer = (userDetails) => {
   const jwtToken = userDetails.token;
-  socket = io("http://localhost:5000", {
+  // socket = io("http://localhost:5000", {
+  socket = io("http://13.49.49.16/", {
+
     auth: {
       tocken: jwtToken,
     },
